@@ -26,6 +26,12 @@ options:
 
 The **test** directory contains a simple reference (FASTA) and a paired-end dataset (FASTQ).
 
+|File                     |#Seq|Total bp |
+|-------------------------|---:|----:|
+|test/input/ref.fa        |3   |751  |
+|test/input/reads_R1.fq.gz|5   |500  |
+|test/input/reads_R2.fq.gz|5   |500  |
+
 ```text
 ├── bin
 │   └── anvi-reformat-bam
