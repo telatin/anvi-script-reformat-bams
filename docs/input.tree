@@ -2,9 +2,9 @@
 ├── Makefile
 ├── README.md
 ├── bin
-│   ├── anvi-reformat-bam
 │   ├── anvi-script-reformat-bam
-│   └── anvi-script-reformat-fasta
+│   ├── anvi-script-reformat-fasta
+│   └── reformat-bam-stub
 ├── docs
 │   ├── input.tree
 │   └── output.tree

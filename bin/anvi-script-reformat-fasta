@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
+# FROM ANVIO REPOSITORY
+# COPIED HERE AS REFERENCE
 
 import sys
 import shutil
