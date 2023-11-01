@@ -2,18 +2,20 @@
 SHELL:=/bin/bash
 
 # Define your directories
+
+TEST_DIR:=test
 INPUT_DIR:=test/input
-OUTPUT_DIR:=test
+OUTPUT_DIR:=test/output
 
 # Define files
 REF:=$(INPUT_DIR)/ref.fa
 REF_INDEX:=$(REF).bwt
 RAW_BAM:=$(INPUT_DIR)/raw.bam
-REFORMAT_FA:=$(OUTPUT_DIR)/REFORMAT.fa
-LIST:=$(OUTPUT_DIR)/REPORT_FILE.txt
+REFORMAT_FA:=$(TEST_DIR)/REFORMAT.fa
+LIST:=$(TEST_DIR)/REPORT_FILE.txt
 
 # Output
-BAM:=$(OUTPUT_DIR)/output/new.bam
+BAM:=$(OUTPUT_DIR)/new.bam
 
 # Define dependencies
 DEPS:=bwa samtools anvi-script-reformat-fasta
@@ -26,6 +28,7 @@ check_dependencies:
 	@echo "Checking for required dependencies..."
 	@$(foreach dep,$(DEPS),\
 		which $(dep) > /dev/null 2>&1 || (echo "ERROR: $(dep) is not installed or not in the PATH"; exit 1);)
+	@mkdir -p $(OUTPUT_DIR) 
 
 # Rule for creating the BAM file using bwa mem, depends on the reference index
 $(RAW_BAM): $(REF_INDEX)
@@ -37,7 +40,7 @@ $(REF_INDEX): $(REF)
 
 # Rule for making REFORMAT.fa from ref.fa
 $(REFORMAT_FA) $(LIST): $(REF)
-	anvi-script-reformat-fasta -r $(LIST) $(REF) -o $(REFORMAT_FA) --simplify
+	anvi-script-reformat-fasta -r $(LIST) $(REF) -o $(REFORMAT_FA) --simplify-names 
 
 $(BAM): $(RAW_BAM) $(LIST)
 	./bin/anvi-reformat-bam -l $(LIST) -i $(RAW_BAM) -o $(BAM)

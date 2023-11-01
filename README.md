@@ -1,4 +1,26 @@
 
+## anvi-reformat-bam
+
+This repository contains a script to reformat BAM to be used by [anvi'o](http://merenlab.org/software/anvio/),
+after the reference contig file has been reformatted using `anvi-script-reformat-fasta`.
+
+The program requires the BAM file and the tabular file produced by `anvi-script-reformat-fasta --report FILE`.
+
+```text
+usage: anvi-reformat-bam [-h] -i INPUT -o OUTPUT -l LIST [--verbose]
+
+Rename contigs in BAM file
+
+options:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Input BAM file
+  -o OUTPUT, --output OUTPUT
+                        Output BAM file
+  -l LIST, --rename-list LIST
+                        tabular file produced by "anvi-script-reformat-fasta --report file"
+  --verbose             Verbose output
+```
 
 ### Test files
 
