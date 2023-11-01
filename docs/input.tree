@@ -1,14 +1,16 @@
 .
 ├── Makefile
+├── README.md
 ├── bin
 │   └── anvi-reformat-bam
-├── input.tree
+├── docs
+│   ├── input.tree
+│   └── output.tree
 └── test
     ├── input
     │   ├── reads_R1.fq.gz
     │   ├── reads_R2.fq.gz
     │   └── ref.fa
     └── output
-        └── formatted.bam
 
-5 directories, 7 files
+6 directories, 8 files

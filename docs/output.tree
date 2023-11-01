@@ -1,9 +1,11 @@
 .
 ├── Makefile
+├── README.md
 ├── bin
 │   └── anvi-reformat-bam
-├── input.tree
-├── output.tree
+├── docs
+│   ├── input.tree
+│   └── output.tree
 └── test
     ├── REFORMAT.fa
     ├── REPORT_FILE.txt
@@ -19,6 +21,7 @@
     │   ├── ref.fa.pac
     │   └── ref.fa.sa
     └── output
-        └── formatted.bam
+        ├── new.bam
+        └── new.bam.bai
 
-5 directories, 17 files
+6 directories, 19 files

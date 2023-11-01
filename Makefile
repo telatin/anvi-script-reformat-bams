@@ -19,7 +19,7 @@ BAM:=$(OUTPUT_DIR)/output/new.bam
 DEPS:=bwa samtools anvi-script-reformat-fasta
 
 # Default rule
-all: check_dependencies $(RAW_BAM) $(REFORMAT_FA)
+all: check_dependencies $(BAM)
 
 # Rule to check for dependencies
 check_dependencies:
@@ -36,16 +36,18 @@ $(REF_INDEX): $(REF)
 	bwa index $(REF)
 
 # Rule for making REFORMAT.fa from ref.fa
-$(REFORMAT_FA): $(REF)
+$(REFORMAT_FA) $(LIST): $(REF)
 	anvi-script-reformat-fasta -r $(LIST) $(REF) -o $(REFORMAT_FA) --simplify
 
 $(BAM): $(RAW_BAM) $(LIST)
 	./bin/anvi-reformat-bam -l $(LIST) -i $(RAW_BAM) -o $(BAM)
+	samtools index $(BAM)
 	tree > docs/output.tree
+
 # Phony targets for cleanliness
 .PHONY: all clean
 
 # Clean rule to remove generated files
 clean:
-	rm -f $(RAW_BAM)* $(REFORMAT_FA) $(REF).* $(LIST)
+	rm -f $(RAW_BAM)* $(REFORMAT_FA) $(REF).* $(LIST) $(BAM)*
 	tree > docs/input.tree

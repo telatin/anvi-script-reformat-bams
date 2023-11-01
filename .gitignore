@@ -1,7 +1,14 @@
 *.bam
+*.bam.bai
+*.bam.csi
 *.sa
 *.pac
 *.bwt
 *.tree
 REFORMAT.fa
 REPORT_FILE.txt
+
+for FILE in test/input/raw.bam.csi test/input/raw.bam test/REFORMAT.fa test/REPORT_FILE.txt test/input/ref.fa.sa test/input/ref.fa.pac test/input/ref.fa.bwt test/input/ref.fa.ann test/input/ref.fa.amb
+do
+    echo git filter-repo --invert-paths --path "$FILE"
+done
