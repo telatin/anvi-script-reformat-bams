@@ -1,0 +1,92 @@
+#!/usr/bin/env python
+import os
+import sys
+import time
+import pysam
+import argparse
+
+def load_dict_from_tsv(path):
+    name_dict = { '*': '*'}
+    with open(path) as fh:
+        for line in fh:
+            if line.startswith("#"):
+                continue
+            if not '\t' in line:
+                raise Exception(f"ERROR: Invalid line in {path} (missing tab): {line}")
+            new, old = line.strip().split("\t")
+            old = old.split(" ")[0].split("\t")[0]
+            name_dict[old] = new
+
+    return name_dict
+
+def update_read(read, new_header):
+    new_read = pysam.AlignedSegment(header=new_header)
+    new_read.query_name = read.query_name
+    new_read.query_sequence = read.query_sequence
+    new_read.flag = read.flag
+    new_read.reference_id = read.reference_id
+    new_read.reference_start = read.reference_start
+    new_read.mapping_quality = read.mapping_quality
+    new_read.cigar = read.cigar
+    new_read.next_reference_id = read.next_reference_id
+    new_read.next_reference_start = read.next_reference_start
+    new_read.template_length = read.template_length
+    new_read.query_qualities = read.query_qualities
+    new_read.tags = read.tags
+    return new_read
+
+def main():
+    args = argparse.ArgumentParser(description="Rename contigs in BAM file")
+    args.add_argument('-i', '--input', help="Input BAM file", required=True)
+    args.add_argument('-o', '--output', help="Output BAM file", required=True)
+    args.add_argument('-l', '--rename-list', dest="list", help="tabular file produced by \"anvi-script-reformat-fasta  --report file\"", required=True)
+    args.add_argument('--verbose', help="Verbose output", action="store_true")
+    args = args.parse_args()
+
+    start_time = time.time()
+    # Check files
+    if not os.path.exists(args.input):
+        sys.exit(f"ERROR: Input BAM file {args.input} does not exist")
+    
+    if not os.path.exists(args.list):
+        sys.exit(f"ERROR: Rename list {args.list} does not exist")
+
+    # Load the list (tsv file, two columns, new name TAB old name)
+    rename_dict = load_dict_from_tsv(args.list)
+    if args.verbose:
+        print(f"Loaded {len(rename_dict):,} entries from {args.list}", file=sys.stderr)
+    
+    # Open the BAM file with pysam and rename all the contigs in header and alignment records
+    bam = pysam.AlignmentFile(args.input, "rb")
+
+    # Open the BAM file with pysam and rename all the contigs in header and alignment records
+    
+    with pysam.AlignmentFile(args.input, "rb") as bam:
+        with pysam.AlignmentFile(args.input, "rb") as bam:
+            # Convert header to dictionary, update contig names, and create new header
+            header_dict = bam.header.to_dict()
+            for sq in header_dict['SQ']:
+                old_name = sq['SN']
+                if old_name in rename_dict:
+                    sq['SN'] = rename_dict[old_name]
+            new_header = pysam.AlignmentHeader.from_dict(header_dict)
+        
+            if args.verbose:
+                print(f"Header converted ({len(header_dict['SQ']):,} contigs)")
+
+        # Create a new BAM file with the new header and updated records
+        with pysam.AlignmentFile(args.input, "rb") as bam, pysam.AlignmentFile(args.output, "wb", header=new_header) as out_bam:
+            for read in bam:
+                updated_read = update_read(read, new_header)
+                out_bam.write(updated_read)
+
+
+    if args.verbose:
+        elapsed_time = time.time() - start_time
+        # time_string = seconds if < 60, minutes if < 3600, hours otherwise
+        time_string = f"{elapsed_time:.1f} seconds" if elapsed_time < 60 else f"{elapsed_time/60:.1f} minutes" if elapsed_time < 3600 else f"{elapsed_time/3600:.1f} hours"
+        print(f"Done! Elapsed time: {time_string}", file=sys.stderr) 
+
+
+if __name__ == '__main__':
+    main()

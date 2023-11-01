@@ -1,0 +1,7 @@
+*.bam
+*.sa
+*.pac
+*.bwt
+*.tree
+REFORMAT.fa
+REPORT_FILE.txt
