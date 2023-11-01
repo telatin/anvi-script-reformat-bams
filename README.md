@@ -41,7 +41,6 @@ The **test** directory contains a simple reference (FASTA) and a paired-end data
     │   ├── reads_R2.fq.gz
     │   └── ref.fa
     └── output
-        └── formatted.bam
 ```
 
 Running the `Makefile` will:
@@ -53,8 +52,8 @@ Running the `Makefile` will:
 
 ```text
 └── test
-    ├── REFORMAT.fa
-    ├── REPORT_FILE.txt
+    ├── REFORMAT.fa             (reformatted FASTA file)
+    ├── REPORT_FILE.txt         (table made by "anvi-script-reformat-fasta --report REPORT_FILE.txt")
     ├── input
     │   ├── raw.bam
     │   ├── raw.bam.csi
@@ -67,7 +66,7 @@ Running the `Makefile` will:
     │   ├── ref.fa.pac
     │   └── ref.fa.sa
     └── output
-        └── formatted.bam
+        └── formatted.bam        (reformatted BAM file)
 ```
 
 How the SAM file looks like after reformatting:
