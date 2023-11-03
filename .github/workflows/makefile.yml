@@ -19,8 +19,10 @@ jobs:
     - name: Setup Micromamba
       uses: mamba-org/setup-micromamba@v1
       with:
+        micromamba-version: '1.4.5'
         environment-file: environment.yml
         activate-environment: bioinfo-env
+        init-shell: bash
 
     - name: Download anvio package
       run: |
