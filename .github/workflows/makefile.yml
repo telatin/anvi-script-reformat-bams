@@ -28,6 +28,6 @@ jobs:
 
     - name: Install anvio
       run: |
-        micromamba install -y python=3.10
+        micromamba activate bioinfo-env
         pip install anvio-8.tar.gz
         anvi-help --help
