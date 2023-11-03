@@ -15,6 +15,9 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y bwa samtools
+    - name: Download anvio package
+      run: |
+        curl -L https://github.com/merenlab/anvio/releases/download/v8/anvio-8.tar.gz --output anvio-8.tar.gz
 
     - name: Setup Micromamba
       uses: mamba-org/setup-micromamba@v1
@@ -23,13 +26,9 @@ jobs:
         environment-file: environment.yml
         activate-environment: bioinfo-env
         init-shell: bash
-
-    - name: Download anvio package
-      run: |
-        curl -L https://github.com/merenlab/anvio/releases/download/v8/anvio-8.tar.gz --output anvio-8.tar.gz
-
     - name: Install anvio
       run: |
+        eval "$(micromamba shell hook --shell bash)"
         micromamba activate bioinfo-env
         pip install anvio-8.tar.gz
         anvi-help --help
