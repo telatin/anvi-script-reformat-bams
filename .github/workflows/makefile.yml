@@ -32,3 +32,4 @@ jobs:
         micromamba activate bioinfo-env
         pip install anvio-8.tar.gz
         anvi-help --help
+        make
