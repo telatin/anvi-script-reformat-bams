@@ -9,7 +9,6 @@ import pandas as pd
 
 
 import anvio
-import anvio.fastalib as u
 import anvio.utils as utils
 import anvio.terminal as terminal
 import anvio.constants as constants
@@ -17,14 +16,14 @@ import anvio.filesnpaths as filesnpaths
 
 from anvio.errors import ConfigError, FilesNPathsError
 
-__author__ = "Developers of anvi'o (see AUTHORS.txt)"
+__author__    = "Developers of anvi'o (see AUTHORS.txt)"
 __copyright__ = "Copyleft 2015-2023, the Meren Lab (http://merenlab.org/)"
-__credits__ = []
-__license__ = "GPL 3.0"
-__version__ = anvio.__version__
-__authors__ = ['telatin']   #TODO: update authors list
-__requires__ = ["bam-file"] #TODO: add "report-file" (also as output of reformat-fasta)
-__provides__ = ["bam-file"]
+__credits__   = []
+__license__   = "GPL 3.0"
+__version__   = anvio.__version__
+__authors__   = ['telatin']     #TODO: update authors list
+__requires__  = ["bam-file", "report-file"]   #TODO: add "report-file" (also as output of reformat-fasta)
+__provides__  = ["bam-file"]
 __description__ =  ("Reformat a BAM file to match the update sequence names after running anvi-script-reformat-fasta")
 
 __SUFFIX__ = ".reformatted.bam"
@@ -43,6 +42,7 @@ def load_dict_from_tsv(path):
             if not '\t' in line:
                 raise Exception(f"ERROR: Invalid line in {path} (missing tab): {line}")
             new, old = line.strip().split("\t")
+            utils.is_this_name_OK_for_database('contig name prefix', new)
             old = old.split(" ")[0].split("\t")[0]
             name_dict[old] = new
 
@@ -79,14 +79,14 @@ def reformat_BAM(args):
                                        input_basename[:-4] + __SUFFIX__ if input_basename.endswith(".bam") else input_basename + ".reformatted.bam"
         )
         run.info("Output BAM file", output_filename)
-    run.info('Overwrite output?', args.force, mc='green' if args.force else 'red')
+    run.info('Overwrite output?', args.overwrite_output, mc='green' if args.overwrite_output else 'red')
 
     # Check input file exist
     filesnpaths.is_file_exists(args.bam_file)
     filesnpaths.is_file_exists(args.rename_list)
 
     # Check output exists
-    if os.path.exists(output_filename) and not args.force:
+    if os.path.exists(output_filename) and not args.overwrite_output:
         raise ConfigError(f"Output file {output_filename} already exists. Use --force to overwrite it.")
     
     # Load the list (tsv file, two columns, new name TAB old name)
@@ -122,26 +122,34 @@ def reformat_BAM(args):
 
 if __name__ == '__main__':
     from anvio.argparse import ArgumentParser
+
     parser = ArgumentParser(description=__description__)
 
-    groupInput = parser.add_argument_group('INPUT', 'The input file you wish to work with.')
-    groupInput.add_argument('bam_file', metavar='BAM FILE')
-    groupInput.add_argument('-l', '--rename-list', help="tabular file produced by \"anvi-script-reformat-fasta  --report file\"", required=True)
+    groupA = parser.add_argument_group('INPUT', 'The input file you wish to work with.')
+    groupA.add_argument('bam_file', metavar='BAM FILE')
+    groupA.add_argument('-l', '--rename-list', metavar="RENAME LIST", help="tabular file produced by \"anvi-script-reformat-fasta  --report file\"", required=True)
     
     
-    groupOutput = parser.add_argument_group('OUTPUT', 'Dealing with the output.')
-    groupOutput.add_argument('-o', '--output-bam', required=False, metavar='FASTA FILE PATH',
+    groupB = parser.add_argument_group('OUTPUT', 'Dealing with the output.')
+    groupB.add_argument('-o', '--output-bam', required=False, metavar='FORMATTED BAM',
                         help="The output BAM file name, if  not specified defaults to the input file name with the suffix '.reformatted.bam'")
 
 
-    groupMisc = parser.add_argument_group('OTHER OPTIONS')
-    groupMisc.add_argument('--force', default=False, action="store_true",
+    groupC = parser.add_argument_group('OTHER OPTIONS')
+    groupC.add_argument('--overwrite-output', default=False, action="store_true",
                         help="Overwrite output file if it exists.")
 
 
-   
-    args = parser.get_args(parser)
+    args = None
+    try:
+        args = parser.get_args(parser)
+    except Exception as e:
+        parser.print_help()
+        print(f"ERROR: Invalid command syntax, check the synopsis.\n({e})")
+        
+        sys.exit(-1)
 
+    
     try:
         reformat_BAM(args)
     except ConfigError as e:

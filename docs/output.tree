@@ -2,10 +2,11 @@
 ├── Makefile
 ├── README.md
 ├── bin
-│   ├── anvi-reformat-bam
 │   ├── anvi-script-reformat-bam
-│   └── anvi-script-reformat-fasta
+│   ├── anvi-script-reformat-fasta
+│   └── reformat-bam-stub
 ├── docs
+│   ├── anvio-track.png
 │   ├── input.tree
 │   └── output.tree
 └── test
@@ -24,7 +25,9 @@
     │   ├── ref.fa.pac
     │   └── ref.fa.sa
     └── output
-        ├── new.bam
-        └── new.bam.bai
+        ├── final.bam
+        ├── final.bam.csi
+        ├── stub.bam
+        └── stub.bam.csi
 
-6 directories, 22 files
+6 directories, 25 files

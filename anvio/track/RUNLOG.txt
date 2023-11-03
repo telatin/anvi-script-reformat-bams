@@ -1,0 +1,41 @@
+[03 Nov 23 11:14:22] Sample name set ...................................: final
+[03 Nov 23 11:14:22] Description .......................................: None
+[03 Nov 23 11:14:22] Profile DB path ...................................: /Users/telatina/git/bam-rename/anvio/track/PROFILE.db
+[03 Nov 23 11:14:22] Contigs DB path ...................................: anvio/CONTIGS.db
+[03 Nov 23 11:14:22] Contigs DB hash ...................................: hash466b6ad8
+[03 Nov 23 11:14:22] Command line ......................................: /Users/telatina/miniconda3/envs/anvio-8/bin/anvi-profile --cluster-contigs --min-contig-len 50 -i test/output/final.bam -c anvio/CONTIGS.db -o anvio/track --force-overwrite
+[03 Nov 23 11:14:22] Minimum percent identity of reads to be profiled ..: None
+[03 Nov 23 11:14:22] Fetch filter engaged ..............................: None
+[03 Nov 23 11:14:22] Is merged profile? ................................: False
+[03 Nov 23 11:14:22] Is blank profile? .................................: False
+[03 Nov 23 11:14:22] Skip contigs shorter than .........................: 50
+[03 Nov 23 11:14:22] Skip contigs longer than ..........................: 9,223,372,036,854,775,807
+[03 Nov 23 11:14:22] Perform hierarchical clustering of contigs? .......: True
+[03 Nov 23 11:14:22] Profile single-nucleotide variants (SNVs)? ........: True
+[03 Nov 23 11:14:22] Profile single-codon variants (SCVs/+SAAVs)? ......: False
+[03 Nov 23 11:14:22] Profile insertion/deletions (INDELs)? .............: True
+[03 Nov 23 11:14:22] Minimum coverage to calculate SNVs ................: 10
+[03 Nov 23 11:14:22] Report FULL variability data? .....................: False
+[03 Nov 23 11:14:22] 
+WARNING
+====================================================
+Your minimum contig length is set to 50 base pairs. So anvi'o will not take into
+consideration anything below that. If you need to kill this an restart your
+analysis with another minimum contig length value, feel free to press CTRL+C.
+
+
+[03 Nov 23 11:14:22] Input BAM .........................................: /Users/telatina/git/bam-rename/test/output/final.bam
+[03 Nov 23 11:14:22] Output directory path .............................: /Users/telatina/git/bam-rename/anvio/track
+[03 Nov 23 11:14:22] Number of reads in the BAM file ...................: 8
+[03 Nov 23 11:14:22] Number of sequences in the contigs DB .............: 3
+[03 Nov 23 11:14:22] Number of contigs to be conisdered (after -M) .....: 3
+[03 Nov 23 11:14:22] Number of splits ..................................: 3
+[03 Nov 23 11:14:22] Number of nucleotides .............................: 751
+[03 Nov 23 11:14:23] Num SNVs reported .................................: 0
+[03 Nov 23 11:14:23] Num INDELs reported ...............................: 0
+[03 Nov 23 11:14:23] Additional data added to the new profile DB .......: total_reads_mapped, num_SNVs_reported, num_INDELs_reported, total_reads_kept
+[03 Nov 23 11:14:23] New items order ...................................: "tnf:euclidean:ward" (type newick) has been added to the database...
+[03 Nov 23 11:14:23] New items order ...................................: "tnf-ab-cov:euclidean:ward" (type newick) has been added to the database...
+[03 Nov 23 11:14:23] * Happy 
+
+[03 Nov 23 11:14:23] Bye.

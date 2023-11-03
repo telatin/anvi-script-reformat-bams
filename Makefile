@@ -42,17 +42,36 @@ $(REF_INDEX): $(REF)
 $(REFORMAT_FA) $(LIST): $(REF)
 	anvi-script-reformat-fasta -r $(LIST) $(REF) -o $(REFORMAT_FA) --simplify-names 
 
-$(BAM0) $(BAM1): $(RAW_BAM) $(LIST)
+
+$(BAM0): $(RAW_BAM) $(LIST)
+	echo "Using reformat-bam-stub"
 	./bin/reformat-bam-stub        -l $(LIST) -i $(RAW_BAM) -o $(BAM0)
+	samtools index --csi $(BAM0)
+	tree > docs/output.tree 
+
+$(BAM1): $(RAW_BAM) $(LIST) $(BAM0)
+	echo "Using anvi-script-reformat-bam"
 	./bin/anvi-script-reformat-bam -l $(LIST) --force -o $(BAM1) $(RAW_BAM)
 	samtools index --csi $(BAM1)
-	samtools index --csi $(BAM0)
+	md5 $(BAM0) $(BAM1)
 	tree > docs/output.tree
+
+
+anvio: $(BAM1)
+	which anvi-interactive > /dev/null 2>&1 || (echo "ERROR: anvi-interactive is not installed or not in the PATH"; exit 1)
+	mkdir -p anvio
+	anvi-gen-contigs-database -n TestViz -f $(REFORMAT_FA) -o anvio/CONTIGS.db
+	anvi-profile --cluster-contigs --min-contig-len 50 -i $(BAM1) -c anvio/CONTIGS.db -o anvio/track --force-overwrite
+	anvi-interactive -c anvio/CONTIGS.db -p anvio/track/PROFILE.db
 
 # Phony targets for cleanliness
 .PHONY: all clean
 
 # Clean rule to remove generated files
 clean:
-	rm -f $(RAW_BAM)* $(REFORMAT_FA) $(REF).* $(LIST) $(BAM0)* $(BAM1)*
+	for FILE in $(RAW_BAM)* $(REFORMAT_FA) $(REF).* $(LIST) $(BAM0)* $(BAM1)* anvio/;\
+	do\
+		echo "Removing $$FILE";\
+		rm -rf $$FILE;\
+	done
 	tree > docs/input.tree

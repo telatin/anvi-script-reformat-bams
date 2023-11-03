@@ -245,6 +245,7 @@ def reformat_FASTA(args):
 
 if __name__ == '__main__':
     from anvio.argparse import ArgumentParser
+    
     parser = ArgumentParser(description=__description__)
 
     groupA = parser.add_argument_group('INPUT', 'The input file you wish to work with.')

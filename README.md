@@ -43,7 +43,7 @@ The **test** directory contains a simple reference (FASTA) and a paired-end data
     └── output
 ```
 
-Running the `Makefile` will:
+Running the Makefile  (`make`) will:
 
 * index the reference (`bwa index`), 
 * align the reads (`bwa mem`), 
@@ -83,3 +83,13 @@ How the SAM file looks like after reformatting:
 |read_3  |145 |c_000000000002|151     |15     |100M |=       |51      |-200     |
 |read_5  |73  |c_000000000003|51      |0      |100M |=       |51      |0        |
 |read_5  |133 |c_000000000003|51      |0      |*    |=       |51      |0        |
+
+### Test with anvio
+
+If you are inside the Anvi'o environment you can run `make anvio` to also 
+
+* generate the contig database
+* import the new BAM as profile
+* run `anvi-interactive`
+
+![Screenshot](docs/anvio-track.png)

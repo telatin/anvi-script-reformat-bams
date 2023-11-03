@@ -6,6 +6,7 @@
 │   ├── anvi-script-reformat-fasta
 │   └── reformat-bam-stub
 ├── docs
+│   ├── anvio-track.png
 │   ├── input.tree
 │   └── output.tree
 └── test
@@ -16,4 +17,4 @@
     │   └── ref.fa
     └── output
 
-6 directories, 11 files
+6 directories, 12 files
