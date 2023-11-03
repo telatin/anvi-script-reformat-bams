@@ -3,10 +3,6 @@ name: test-anvi-bam
 on:
   workflow_dispatch:  # This event allows manual triggering
 
-name: Setup Bioinformatics Environment
-
-on: [push, pull_request]
-
 jobs:
   setup-environment:
     runs-on: ubuntu-latest
