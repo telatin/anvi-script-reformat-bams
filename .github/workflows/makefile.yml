@@ -1,0 +1,20 @@
+name: test-anvi-bam
+
+on:
+  workflow_dispatch:  # This event allows manual triggering
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Install Samtools and BWA
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y samtools bwa
+      
+      - name: Run make
+        run: |
+          make  # Replace with the actual command you use to test your repository
