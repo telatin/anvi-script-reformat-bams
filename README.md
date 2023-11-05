@@ -1,6 +1,8 @@
 
 ## anvi-reformat-bam
 
+[![test-anvi-bam](https://github.com/telatin/anvi-script-reformat-bams/actions/workflows/makefile.yml/badge.svg)](https://github.com/telatin/anvi-script-reformat-bams/actions/workflows/makefile.yml)
+
 This repository contains a script to reformat BAM to be used by [anvi'o](http://merenlab.org/software/anvio/),
 after the reference contig file has been reformatted using `anvi-script-reformat-fasta`.
 
