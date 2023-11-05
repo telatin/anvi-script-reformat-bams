@@ -53,7 +53,7 @@ $(BAM1): $(RAW_BAM) $(LIST) $(BAM0)
 	echo "Using anvi-script-reformat-bam"
 	./bin/anvi-script-reformat-bam -l $(LIST) --force -o $(BAM1) $(RAW_BAM)
 	samtools index --csi $(BAM1)
-	md5 $(BAM0) $(BAM1)
+	md5sum $(BAM0) $(BAM1)
 	tree > docs/output.tree
 
 
